@@ -13,11 +13,13 @@ import toast from "react-hot-toast";
 interface Invoice {
   id: string;
   invoiceNumber: string;
-  serviceName: string;
-  amount: number;
+  serviceName: string | null;
+  amount: number | null;
+  totalAmount: number;
   date: string;
   status: string;
   client: { id: string; name: string };
+  items: { id: string; serviceName: string; amount: number }[];
 }
 
 export default function InvoicesPage() {
@@ -107,9 +109,9 @@ export default function InvoicesPage() {
                     onClick={() => router.push(`/invoices/${inv.id}`)}
                   >
                     <td className="px-4 py-3 font-mono text-xs text-card-foreground">{inv.invoiceNumber}</td>
-                    <td className="px-4 py-3 text-card-foreground">{inv.serviceName}</td>
+                    <td className="px-4 py-3 text-card-foreground">{inv.serviceName || "-"}</td>
                     <td className="px-4 py-3 text-muted-foreground">{inv.client.name}</td>
-                    <td className="px-4 py-3 font-medium text-card-foreground">{formatCurrency(inv.amount)}</td>
+                    <td className="px-4 py-3 font-medium text-card-foreground">{formatCurrency(inv.totalAmount || inv.amount || 0)}</td>
                     <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{formatDate(inv.date)}</td>
                     <td className="px-4 py-3"><Badge variant={statusVariant(inv.status)}>{inv.status}</Badge></td>
                     <td className="px-4 py-3 text-right">

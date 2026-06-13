@@ -62,8 +62,39 @@ export interface InvoiceFormData {
   serviceName: string;
   amount: number;
   date: string;
+  dueDate: string;
   status: "PENDING" | "PAID" | "OVERDUE";
   clientId: string;
+  notes: string;
+  items: InvoiceItemFormData[];
+}
+
+export interface InvoiceItemFormData {
+  serviceId: string;
+  serviceName: string;
+  categoryName: string;
+  quantity: number;
+  unitPrice: number;
+  discount: number;
+  taxPercent: number;
+  amount: number;
+}
+
+export interface ServiceCategoryFormData {
+  name: string;
+  description: string;
+  icon: string;
+  isActive: boolean;
+}
+
+export interface ServiceFormData {
+  name: string;
+  description: string;
+  categoryId: string;
+  duration: "ONE_TIME" | "THREE_MONTHS" | "SIX_MONTHS" | "TWELVE_MONTHS";
+  amount: number;
+  taxPercent: number;
+  isActive: "ACTIVE" | "INACTIVE";
 }
 
 export interface MonitorFormData {

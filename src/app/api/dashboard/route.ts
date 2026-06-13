@@ -69,11 +69,11 @@ export async function GET() {
         name: p.title,
         date: p.createdAt.toISOString(),
       })),
-      ...recentInvoices.map((i: { id: string; invoiceNumber: string; serviceName: string; createdAt: Date; amount: number }) => ({
+      ...recentInvoices.map((i: { id: string; invoiceNumber: string; serviceName: string | null; createdAt: Date; amount: number | null }) => ({
         id: i.id,
         type: "invoice" as const,
         action: `Invoice ${i.invoiceNumber}`,
-        name: i.serviceName,
+        name: i.serviceName || "Invoice",
         date: i.createdAt.toISOString(),
       })),
     ]

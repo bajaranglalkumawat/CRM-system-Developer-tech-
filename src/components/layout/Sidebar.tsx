@@ -9,6 +9,8 @@ import {
   FolderKanban,
   FileText,
   Activity,
+  Layers,
+  BarChart3,
   X,
 } from "lucide-react";
 
@@ -16,7 +18,9 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Clients", href: "/clients", icon: Users },
   { name: "Projects", href: "/projects", icon: FolderKanban },
+  { name: "Services", href: "/services", icon: Layers },
   { name: "Invoices", href: "/invoices", icon: FileText },
+  { name: "Reports", href: "/reports", icon: BarChart3 },
   { name: "Monitoring", href: "/monitoring", icon: Activity },
 ];
 

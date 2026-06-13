@@ -28,6 +28,18 @@ enum UserRole {
   ADMIN
 }
 
+enum ServiceDuration {
+  ONE_TIME
+  THREE_MONTHS
+  SIX_MONTHS
+  TWELVE_MONTHS
+}
+
+enum ServiceStatus {
+  ACTIVE
+  INACTIVE
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -69,12 +81,19 @@ model Project {
 model Invoice {
   id            String        @id @default(cuid())
   invoiceNumber String        @unique
-  serviceName   String
-  amount        Float
+  serviceName   String?
+  amount        Float?
+  subtotal      Float         @default(0)
+  taxAmount     Float         @default(0)
+  discount      Float         @default(0)
+  totalAmount   Float         @default(0)
   date          DateTime      @default(now())
+  dueDate       DateTime?
+  notes         String?
   status        InvoiceStatus @default(PENDING)
   clientId      String
   client        Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  items         InvoiceItem[]
   payments      Payment[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -98,4 +117,46 @@ model MonitoringLog {
   lastChecked  DateTime?
   responseTime Int?
   createdAt    DateTime      @default(now())
+}
+
+model ServiceCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  icon        String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  services    Service[]
+}
+
+model Service {
+  id          String          @id @default(cuid())
+  name        String
+  description String?
+  categoryId  String
+  category    ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  duration    ServiceDuration @default(ONE_TIME)
+  amount      Float
+  taxPercent  Float           @default(18)
+  isActive    ServiceStatus   @default(ACTIVE)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  invoiceItems InvoiceItem[]
+}
+
+model InvoiceItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  serviceId   String?
+  service     Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  serviceName String
+  categoryName String?
+  quantity    Int      @default(1)
+  unitPrice   Float
+  discount    Float    @default(0)
+  taxPercent  Float    @default(18)
+  amount      Float
+  createdAt   DateTime @default(now())
 }

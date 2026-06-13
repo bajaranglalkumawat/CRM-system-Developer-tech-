@@ -10,11 +10,21 @@ export default function NewInvoicePage() {
   const router = useRouter();
 
   async function handleSubmit(data: {
-    serviceName: string;
-    amount: number | string;
-    date: string;
-    status: string;
     clientId: string;
+    date: string;
+    dueDate: string;
+    status: string;
+    notes: string;
+    items: {
+      serviceId: string;
+      serviceName: string;
+      categoryName: string;
+      quantity: number;
+      unitPrice: number;
+      discount: number;
+      taxPercent: number;
+      amount: number;
+    }[];
   }) {
     const res = await fetch("/api/invoices", {
       method: "POST",
