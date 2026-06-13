@@ -9,7 +9,7 @@ echo "DATABASE_URL is set: $([ -n "$DATABASE_URL" ] && echo 'YES' || echo 'NO')"
 
 # Push schema to database (creates/updates tables)
 echo "Pushing schema to database..."
-npx prisma db push --skip-generate --accept-data-loss
+npx prisma db push --accept-data-loss
 echo "Schema pushed successfully."
 
 # Seed admin user and service categories
