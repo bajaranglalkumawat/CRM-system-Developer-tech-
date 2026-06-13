@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
+    "start:prod": "sh start.sh",
     "lint": "eslint",
     "postinstall": "prisma generate"
   },
@@ -24,6 +25,7 @@
     "node-cron": "^4.2.1",
     "pg": "^8.21.0",
     "prisma": "^7.8.0",
+    "tsx": "^4.22.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hot-toast": "^2.6.0"
@@ -43,7 +45,6 @@
     "eslint-config-next": "16.2.9",
     "markdown-pdf": "^11.0.0",
     "tailwindcss": "^4",
-    "tsx": "^4.22.4",
     "typescript": "^5"
   }
 }
