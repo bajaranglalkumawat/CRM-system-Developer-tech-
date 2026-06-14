@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         quantity: item.quantity || 1,
         unitPrice: item.unitPrice,
         discount: item.discount || 0,
-        taxPercent: item.taxPercent || 18,
+        taxPercent: item.taxPercent ?? 18,
         amount: 0, // calculated below
       })
     );
