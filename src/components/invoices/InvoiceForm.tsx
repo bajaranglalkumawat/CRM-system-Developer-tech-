@@ -269,14 +269,17 @@ export function InvoiceForm({ initialData, onSubmit, isEdit }: InvoiceFormProps)
                     />
                   </td>
                   <td className="px-3 py-2">
-                    <input
-                      type="number"
-                      min="0"
-                      max="100"
+                    <select
                       value={item.taxPercent}
-                      onChange={(e) => updateItem(idx, "taxPercent", parseFloat(e.target.value) || 0)}
-                      className="w-16 rounded border border-border bg-background px-2 py-1 text-center text-sm"
-                    />
+                      onChange={(e) => updateItem(idx, "taxPercent", parseFloat(e.target.value))}
+                      className="w-20 rounded border border-border bg-background px-2 py-1 text-center text-sm"
+                    >
+                      <option value={0}>0%</option>
+                      <option value={5}>5%</option>
+                      <option value={12}>12%</option>
+                      <option value={18}>18%</option>
+                      <option value={28}>28%</option>
+                    </select>
                   </td>
                   <td className="px-3 py-2 text-right font-medium text-card-foreground">
                     {formatCurrency(item.amount)}
