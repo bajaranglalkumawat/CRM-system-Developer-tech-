@@ -25,10 +25,11 @@
     "node-cron": "^4.2.1",
     "pg": "^8.21.0",
     "prisma": "^7.8.0",
-    "tsx": "^4.22.4",
+    "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "react-hot-toast": "^2.6.0"
+    "react-hot-toast": "^2.6.0",
+    "tsx": "^4.22.4"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -39,6 +40,7 @@
     "@types/node": "^20",
     "@types/node-cron": "^3.0.11",
     "@types/pg": "^8.20.0",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

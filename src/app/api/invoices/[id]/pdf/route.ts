@@ -3,12 +3,14 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
+import QRCode from "qrcode";
 
 // Company details
 const COMPANY = {
   name: "Developer Tech LLP",
   address: "Rajasthan, Jaipur, India",
   email: "developertech31@gmail.com",
+  website: "https://developertech.in",
   services: "Web Development | SEO | Digital Marketing | IT Services",
 };
 
@@ -364,28 +366,53 @@ export async function GET(
     }
 
     // ============================================
-    // FOOTER
+    // FOOTER WITH QR CODE
     // ============================================
     const pageHeight = doc.internal.pageSize.height;
 
-    // Footer accent line
+    // Generate QR code for company website
+    const qrDataUrl = await QRCode.toDataURL(COMPANY.website, {
+      width: 256,
+      margin: 1,
+      color: { dark: "#1E40AF", light: "#FFFFFF" },
+    });
+
+    // QR code position (right side of footer)
+    const qrSize = 22;
+    const qrX = pageWidth - marginR - qrSize - 2;
+    const qrY = pageHeight - 38;
+
+    // Add QR code image
+    doc.addImage(qrDataUrl, "PNG", qrX, qrY, qrSize, qrSize);
+
+    // "Scan" label below QR
+    doc.setFontSize(5.5);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(30, 64, 175);
+    doc.text("Scan to visit", qrX + qrSize / 2, qrY + qrSize + 3, { align: "center" });
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(120, 120, 120);
+    doc.text("developertech.in", qrX + qrSize / 2, qrY + qrSize + 6, { align: "center" });
+
+    // Footer accent line (shorter to leave room for QR)
     doc.setDrawColor(30, 64, 175);
     doc.setLineWidth(0.5);
-    doc.line(marginL, pageHeight - 32, pageWidth - marginR, pageHeight - 32);
+    doc.line(marginL, pageHeight - 32, qrX - 4, pageHeight - 32);
 
     // Thank you message
     doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(30, 64, 175);
-    doc.text("Thank you for your business!", pageWidth / 2, pageHeight - 24, { align: "center" });
+    doc.text("Thank you for your business!", (marginL + qrX - 4) / 2, pageHeight - 24, { align: "center" });
 
-    // Company footer info
+    // Company footer info (left side)
     doc.setFontSize(7.5);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(120, 120, 120);
-    doc.text(COMPANY.name, pageWidth / 2, pageHeight - 17, { align: "center" });
-    doc.text(COMPANY.address, pageWidth / 2, pageHeight - 12, { align: "center" });
-    doc.text(COMPANY.email, pageWidth / 2, pageHeight - 7, { align: "center" });
+    const footerCenterX = (marginL + qrX - 4) / 2;
+    doc.text(COMPANY.name, footerCenterX, pageHeight - 17, { align: "center" });
+    doc.text(COMPANY.address, footerCenterX, pageHeight - 12, { align: "center" });
+    doc.text(COMPANY.email, footerCenterX, pageHeight - 7, { align: "center" });
 
     // Bottom accent bar
     doc.setFillColor(30, 64, 175);
