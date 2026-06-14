@@ -12,9 +12,9 @@ const COMPANY = {
   services: "Web Development | SEO | Digital Marketing | IT Services",
 };
 
-// Format Indian Rupees
+// Format Indian Rupees (Rs. instead of Unicode ₹ for PDF compatibility)
 function formatINR(amount: number): string {
-  return "\u20B9 " + amount.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return "Rs. " + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export async function GET(
